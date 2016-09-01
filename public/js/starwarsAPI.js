@@ -1,5 +1,10 @@
 $(document).ready(function() {
 	"use strict";
+	var maxNumberOfPeople = 87;
+	var maxNumberOfPlanets = 61;
+
+
+	//number used to check when the user selects a smaller number coming from a bigger one in the people dropdown list.
 	var number = 1;
 
 
@@ -12,15 +17,23 @@ $(document).ready(function() {
 	var $peopleHeader = $('#hiddenPeopleHeaders');
 	//head rows for the table for people
 	var infoPeople = "<tr><th>Name</th><th>Gender</th> <th>Height</th><th>Mass</th></tr>";
+	var infoPlanets = "";
 
+	function ajaxForPlanets(){
 
-
+	}
 	//this function will create the drop down list with the numbers from 1 to 87
-	$(function(){
-	    for (var i=1;i<=87;i++){
+	function createDropDown(max){
+	    for (var i=1;i<=max;i++){
 	        $dropDownPeople.append($('<option></option>').val(i).html(i))
 	    }
-	});
+	}
+	//old dropdown iffe
+	// $(function(){
+	//     for (var i=1;i<=87;i++){
+	//         $dropDownPeople.append($('<option></option>').val(i).html(i))
+	//     }
+	// });
 	//draws the table for one person at the time
 	function drawTablePeople(person){
 		console.log(person.name);
@@ -37,16 +50,22 @@ $(document).ready(function() {
 
 	//ajax for getting each person and displaying its info
 	function generatePeople(numberOfPeople){
-		var temp = number;
-		number = numberOfPeople;//
+		var temp = number;//saves the last number
+		number = numberOfPeople;//assigns it to the new number of people required to display
+		//if loop if the new number is smaller than the old one we reset what we have and start over again
 		if(temp < number){
 			infoPeople = "<tr><th>Name</th><th>Gender</th> <th>Height</th><th>Mass</th></tr>";
 		}
+		//for loop that will run for the number that comes from the drop down list
 		for(var i=1; i <= numberOfPeople; i++){
-			$.get("http://swapi.co/api/people/"+i+"/", {
+			//if that fixes error of the API that does not have a 17 character
+			if(i == 17){
+				continue;
+			}
+			$.get("http://swapi.co/api/people/"+i+"/", {//gets the specific person
 			
-			}).done(function(data) {
-				drawTablePeople(data);
+			}).done(function(person) {
+				drawTablePeople(person);//draws the row of info
 			}).fail(function() {
 				console.log('something went wrong in the ajaxForPeople()!');
 			});
@@ -65,6 +84,7 @@ $(document).ready(function() {
 				generatePeople($(this).val());
 			});
 			generatePeople(1);
+			createDropDown(maxNumberOfPeople);
 			$table.show();
 			$peopleHeader.show();
 		}).fail(function() {
@@ -76,18 +96,18 @@ $(document).ready(function() {
 	$.get("http://swapi.co/api/", {
 		
 	}).done(function(data) {
+		//listens to the clicks on the anchor tags and sends its value to the function 
 		$links.click(function(e){
 			e.preventDefault();
 			var $type = $(this).attr('value');
 			linkClicked($type);
-			console.log(data);
 		});
 	}).fail(function() {
 		alert('something went wrong!');
 	});
 	//end of ajax request
 	
-
+	//flow control for our program whatever the user clicks on
 	function linkClicked(type){
 		switch(type){
 			case 'people':
@@ -95,6 +115,8 @@ $(document).ready(function() {
 				ajaxForPeople();
 				break;
 			case 'planets':
+				console.log("inside planets");
+				ajaxForPlanets();
 				break;
 			case 'films':
 				break;
@@ -108,5 +130,10 @@ $(document).ready(function() {
 	$table.hide();
 	$divPeople.hide();
 
+
+	//get planet 1
+	// swapiModule.getPlanet(1,function(data) {
+	//     console.log("planet 1", data);
+	// });
 
 });
