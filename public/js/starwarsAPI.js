@@ -13,13 +13,32 @@ $(document).ready(function() {
 	var $links = $('.generalOptions');
 	var $table = $('#tableContent');
 	var $dropDownPeople = $(".1-100");
-	var $divPeople = $('#divNumberPeople');
-	var $peopleHeader = $('#hiddenPeopleHeaders');
+	var $divContent = $('#divContent');
+	var $spanInfo = $('#spanInfo');
+
 	//head rows for the table for people
 	var infoPeople = "<tr><th>Name</th><th>Gender</th> <th>Height</th><th>Mass</th></tr>";
-	var infoPlanets = "";
+	var infoPlanets = "<tr><th>Name</th><th>Terrain</th> <th>Climate</th><th>Gravity</th><th>Population</th><th>Residents</th></tr>";
 
 	function ajaxForPlanets(){
+		/////////////Initial Values for every anchor??///////////////////
+		createDropDown(maxNumberOfPlanets);
+		$spanInfo.text("Number of Planets");
+		$table.show().html("");//clearing the table
+		$divContent.show();
+		/////////////Initial Values for every anchor??///////////////////
+
+		$dropDownPeople.on( "change", function(){
+			var numberPlanets = $(this).val();
+			for(var i=1; i < numberPlanets; i++){//is just printing one planet in i the number of i FIX THIS
+				swapiModule.getPlanet(i,function(data) {
+				    console.log("planet "+i, data);
+				});	
+			}
+
+		});
+
+
 
 	}
 	//this function will create the drop down list with the numbers from 1 to 87
@@ -36,7 +55,7 @@ $(document).ready(function() {
 	// });
 	//draws the table for one person at the time
 	function drawTablePeople(person){
-		console.log(person.name);
+		// console.log(person.name);
 		infoPeople += "<tr>"+
 			"<td><img src='/img/"+ person.name+ ".png' class='charactersIMG center-block'</td>"+
 			"<td><b>Name: </b>"+ person.name+"</td>"+
@@ -51,7 +70,7 @@ $(document).ready(function() {
 	//ajax for getting each person and displaying its info
 	function generatePeople(numberOfPeople){
 		var temp = number;//saves the last number
-		number = numberOfPeople;//assigns it to the new number of people required to display
+		number = numberOfPeople;//assigns it to the new number required to display
 		//if loop if the new number is smaller than the old one we reset what we have and start over again
 		if(temp < number){
 			infoPeople = "<tr><th>Name</th><th>Gender</th> <th>Height</th><th>Mass</th></tr>";
@@ -75,7 +94,10 @@ $(document).ready(function() {
 	}
 	//ajax that gets the number of people
 	function ajaxForPeople(){
-		$divPeople.show();
+		//span info shows the data being displayed Ex: characters planets etc..
+		$spanInfo.text("Number of Characters");
+		$divContent.show();
+
 		// get the ajax request
 		$.get("http://swapi.co/api/people/", {
 			
@@ -86,7 +108,7 @@ $(document).ready(function() {
 			generatePeople(1);
 			createDropDown(maxNumberOfPeople);
 			$table.show();
-			$peopleHeader.show();
+			
 		}).fail(function() {
 			alert('something went wrong in the ajaxForPeople()!');
 		});
@@ -126,9 +148,9 @@ $(document).ready(function() {
 				break;
 		}
 	}
-	$peopleHeader.hide();
+	
 	$table.hide();
-	$divPeople.hide();
+	$divContent.hide();
 
 
 	//get planet 1
