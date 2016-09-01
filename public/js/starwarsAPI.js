@@ -1,5 +1,7 @@
 $(document).ready(function() {
 	"use strict";
+	var number = 1;
+
 
 	var $generalList = $('#generalList');
 	var $content = $('#content');
@@ -21,8 +23,9 @@ $(document).ready(function() {
 	});
 	//draws the table for one person at the time
 	function drawTablePeople(person){
-
+		console.log(person.name);
 		infoPeople += "<tr>"+
+			"<td><img src='/img/"+ person.name+ ".png' class='charactersIMG center-block'</td>"+
 			"<td><b>Name: </b>"+ person.name+"</td>"+
 			"<td><b>Gender: </b>"+ person.gender+"</td>"+
 			"<td><b>Height: </b>"+ person.height+" Cm.</td>"+
@@ -34,7 +37,11 @@ $(document).ready(function() {
 
 	//ajax for getting each person and displaying its info
 	function generatePeople(numberOfPeople){
-		var number = 1;//will control number of people displayed max 87	
+		var temp = number;
+		number = numberOfPeople;//
+		if(temp < number){
+			infoPeople = "<tr><th>Name</th><th>Gender</th> <th>Height</th><th>Mass</th></tr>";
+		}
 		for(var i=1; i <= numberOfPeople; i++){
 			$.get("http://swapi.co/api/people/"+i+"/", {
 			

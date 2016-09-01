@@ -1,0 +1,14 @@
+.container{
+	padding-top: 5vh;
+}
+
+.charactersIMG{
+	height:20vh;
+	width: 20vh;
+}
+
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+ }
