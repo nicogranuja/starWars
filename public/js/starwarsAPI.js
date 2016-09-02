@@ -25,10 +25,7 @@ $(document).ready(function() {
 	//arr that has all the dropdowns...keep adding as we develop
 	var arrayDropDowns = [$dropDownPlanets, $dropDownPeople];
 
-	//head rows for the table for people
-	// var infoPeople = "<tr><th>Name</th><th>Gender</th> <th>Height</th><th>Mass</th></tr>";
-	// var infoPlanets = "<tr><th>Name</th><th>Terrain</th> <th>Climate</th><th>Gravity</th><th>Population</th><th>Residents</th></tr>";
-	// var infoPeople="";
+	//global that print the table
 	var infoPlanets="";
 	var infoPeople="";
 
@@ -43,7 +40,6 @@ $(document).ready(function() {
 				arrayDropDowns[i].hide();
 			}
 		}
-
 	}
 	//this function will create the drop down list with numbers
 	function createDropDown(max, $dropDown){
@@ -62,7 +58,6 @@ $(document).ready(function() {
 			"<td><b>Mass: </b>"+ planet.population+"</td>"+
 			// "<td><b>Residents: </b>"+ planet.residents+"</td>"+
 			"</tr>";
-
 		$table.html(infoPlanets);
 	}
 	//draws the table for one person at the time
@@ -110,19 +105,22 @@ $(document).ready(function() {
 		}
 	}
 	function ajaxForPlanets(){
+		$dropDownPeople.off("change");
+
+		
 		//dealing with drop downs make function
 		createDropDown(maxNumberOfPlanets, $dropDownPlanets);
 		hideTheRestDropDowns($dropDownPlanets);
 		$spanInfo.text("Number of Planets");
 		$divContent.show();
-
+		//initial value
+		generatePlanets(1);
 		// get the ajax request
 		$.get("http://swapi.co/api/planets/", {	
 		}).done(function(data) {
 			$dropDownPlanets.on( "change", function(){
 				generatePlanets($(this).val());
 			});
-			generatePlanets(1);
 			$table.show();	
 		}).fail(function() {alert('something went wrong in the ajaxForPeople()!');});
 		//end of ajax request
@@ -134,14 +132,16 @@ $(document).ready(function() {
 		hideTheRestDropDowns($dropDownPeople);
 		$spanInfo.text("Number of Characters");
 		$divContent.show();
-	
+		//initial value
+		generatePeople(1);
+
 		// get the ajax request
 		$.get("http://swapi.co/api/people/", {	
 		}).done(function(data) {
 			$dropDownPeople.on( "change", function(){
 				generatePeople($(this).val());
+
 			});
-			generatePeople(1);
 			$table.show();	
 		}).fail(function() {alert('something went wrong in the ajaxForPeople()!');});
 		//end of ajax request
@@ -179,8 +179,8 @@ $(document).ready(function() {
 			$spanInfo.html("");
 			$dropDownPeople.html("");
 			$dropDownPlanets.html("");
-			$('#tableContent').html("");
-			$table.html("");
+			//$('#tableContent').html("");
+			//$table.html("");
 			linkClicked($type);
 
 		});
