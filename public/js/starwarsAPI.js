@@ -29,6 +29,17 @@ $(document).ready(function() {
 	var infoPlanets="";
 	var infoPeople="";
 
+	//function turns off all the listeners for the non-active anchor tags
+	function turnOffListenersButCurrentOne($listener){
+		for(var i=0; i < arrayDropDowns.length; i++){
+			if(arrayDropDowns[i] == $listener){//the one we exclude'
+				continue;
+			}
+			else{
+				arrayDropDowns[i].off("change");
+			}
+		}
+	}
 	//function will exclude the dropdown parameter and hide the rest of dropdowns.
 	function hideTheRestDropDowns($notMe){
 		for(var i=0; i < arrayDropDowns.length; i++){
@@ -103,11 +114,9 @@ $(document).ready(function() {
 				console.log('something went wrong in the ajaxForPeople()!');
 			});
 		}
+		infoPeople="";
 	}
 	function ajaxForPlanets(){
-		$dropDownPeople.off("change");
-
-		
 		//dealing with drop downs make function
 		createDropDown(maxNumberOfPlanets, $dropDownPlanets);
 		hideTheRestDropDowns($dropDownPlanets);
@@ -151,11 +160,11 @@ $(document).ready(function() {
 	function linkClicked(type){
 		switch(type){
 			case 'people':
-				console.log("inside people");
+				turnOffListenersButCurrentOne($dropDownPeople);
 				ajaxForPeople();
 				break;
 			case 'planets':
-				console.log("inside planets");
+				turnOffListenersButCurrentOne($dropDownPlanets);
 				ajaxForPlanets();
 				break;
 			case 'films':
@@ -174,13 +183,12 @@ $(document).ready(function() {
 		$links.click(function(e){
 			e.preventDefault();
 			var $type = $(this).attr('value');
+			
 			//trying to maybe reset the content every time we click in the anchor tag
-			// $divContent.html("<span id='spanInfo'></span><select class='1-100'></select>");
 			$spanInfo.html("");
 			$dropDownPeople.html("");
 			$dropDownPlanets.html("");
-			//$('#tableContent').html("");
-			//$table.html("");
+			
 			linkClicked($type);
 
 		});
