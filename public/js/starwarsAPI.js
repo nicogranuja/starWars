@@ -23,6 +23,8 @@ $(document).ready(function() {
 	var $dropDownPlanets = $(".1-61");
 	var $divContent = $('#divContent');
 	var $spanInfo = $('#spanInfo');
+	//arr that has all the dropdowns...keep adding as we develop
+	var arrayDropDowns = [$dropDownPlanets, $dropDownPeople];
 
 	//head rows for the table for people
 	var infoPeople = "<tr><th>Name</th><th>Gender</th> <th>Height</th><th>Mass</th></tr>";
@@ -47,8 +49,7 @@ $(document).ready(function() {
 		/////////////Initial Values for every anchor??///////////////////
 		createDropDown(maxNumberOfPlanets, $dropDownPlanets);
 		//dealing with drop downs make function
-		$dropDownPlanets.show();
-		$dropDownPeople.hide();
+		hideTheRestDropDowns($dropDownPlanets);
 		//*******************
 		$spanInfo.text("Number of Planets");
 		$table.show().html("");//clearing the table
@@ -64,6 +65,20 @@ $(document).ready(function() {
 			}
 			infoPlanets="";
 		});
+
+	}
+	//function will exclude the dropdown parameter and hide the rest of dropdowns.
+	function hideTheRestDropDowns($notMe){
+		for(var i=0; i < arrayDropDowns.length; i++){
+			if(arrayDropDowns[i] == $notMe){//the one we exclude'
+				//also show it.
+				$notMe.show();
+				continue;
+			}
+			else{
+				arrayDropDowns[i].hide();
+			}
+		}
 
 	}
 	//this function will create the drop down list with numbers
@@ -122,10 +137,8 @@ $(document).ready(function() {
 		//span info shows the data being displayed Ex: characters planets etc..
 		$spanInfo.text("Number of Characters");
 		$divContent.show();
-
-		//dealing with drop downs.......Probably make a function later on
-		$dropDownPeople.show();
-		$dropDownPlanets.hide();
+		//dealing with drop downs.......
+		hideTheRestDropDowns($dropDownPeople);
 		//**************************
 
 
