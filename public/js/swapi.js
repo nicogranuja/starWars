@@ -22,7 +22,7 @@ var swapiModule = function () {
     } else {
       oReq = new XMLHttpRequest();
       oReq.open('get', url, true);
-      oReq.setRequestHeader('User-Agent', 'swapi-javascript');
+      // oReq.setRequestHeader('User-Agent', 'swapi-javascript');
       oReq.setRequestHeader('Accept', 'application/json');
     }
     oReq.onload = listener;

@@ -1,8 +1,15 @@
 $(document).ready(function() {
 	"use strict";
-	var maxNumberOfPeople = 87;
-	var maxNumberOfPlanets = 61;
-
+	var maxNumberOfPeople = 0;
+	swapiModule.getPeople(function(data) {
+	    maxNumberOfPeople = data.count;
+	    console.log("getting number of people = "+ data.count);
+	});
+	var maxNumberOfPlanets = 0;
+	swapiModule.getPlanets(function(data) {
+	    maxNumberOfPlanets = data.count;
+	    console.log("getting number of planets = "+ data.count);
+	});
 
 	//number used to check when the user selects a smaller number coming from a bigger one in the people dropdown list.
 	var number = 1;
@@ -13,38 +20,56 @@ $(document).ready(function() {
 	var $links = $('.generalOptions');
 	var $table = $('#tableContent');
 	var $dropDownPeople = $(".1-100");
+	var $dropDownPlanets = $(".1-61");
 	var $divContent = $('#divContent');
 	var $spanInfo = $('#spanInfo');
 
 	//head rows for the table for people
 	var infoPeople = "<tr><th>Name</th><th>Gender</th> <th>Height</th><th>Mass</th></tr>";
 	var infoPlanets = "<tr><th>Name</th><th>Terrain</th> <th>Climate</th><th>Gravity</th><th>Population</th><th>Residents</th></tr>";
+	
 
+	//draw the planets
+	function drawPlanets(planet){
+		infoPlanets += "<tr>"+
+			// "<td><img src='/img/"+ planet.name+ ".png' class='charactersIMG center-block'</td>"+
+			"<td><b>Name: </b>"+ planet.name+"</td>"+
+			"<td><b>Terrain: </b>"+ planet.terrain+"</td>"+
+			"<td><b>Gender: </b>"+ planet.climate+"</td>"+
+			"<td><b>Height: </b>"+ planet.gravity+" G's</td>"+
+			"<td><b>Mass: </b>"+ planet.population+"</td>"+
+			// "<td><b>Residents: </b>"+ planet.residents+"</td>"+
+			"</tr>";
+
+		$table.html(infoPlanets);
+	}
 	function ajaxForPlanets(){
 		/////////////Initial Values for every anchor??///////////////////
-		createDropDown(maxNumberOfPlanets);
+		createDropDown(maxNumberOfPlanets, $dropDownPlanets);
+		//dealing with drop downs make function
+		$dropDownPlanets.show();
+		$dropDownPeople.hide();
+		//*******************
 		$spanInfo.text("Number of Planets");
 		$table.show().html("");//clearing the table
 		$divContent.show();
 		/////////////Initial Values for every anchor??///////////////////
 
-		$dropDownPeople.on( "change", function(){
+		$dropDownPlanets.on( "change", function(){
 			var numberPlanets = $(this).val();
 			for(var i=1; i < numberPlanets; i++){//is just printing one planet in i the number of i FIX THIS
-				swapiModule.getPlanet(i,function(data) {
-				    console.log("planet "+i, data);
+				swapiModule.getPlanet(i,function(planet) {
+				    drawPlanets(planet);
 				});	
 			}
-
+			infoPlanets="";
 		});
 
-
-
 	}
-	//this function will create the drop down list with the numbers from 1 to 87
-	function createDropDown(max){
+	//this function will create the drop down list with numbers
+	function createDropDown(max, $dropDown){
 	    for (var i=1;i<=max;i++){
-	        $dropDownPeople.append($('<option></option>').val(i).html(i))
+	        $dropDown.append($('<option></option>').val(i).html(i))
 	    }
 	}
 	//old dropdown iffe
@@ -98,6 +123,12 @@ $(document).ready(function() {
 		$spanInfo.text("Number of Characters");
 		$divContent.show();
 
+		//dealing with drop downs.......Probably make a function later on
+		$dropDownPeople.show();
+		$dropDownPlanets.hide();
+		//**************************
+
+
 		// get the ajax request
 		$.get("http://swapi.co/api/people/", {
 			
@@ -106,7 +137,7 @@ $(document).ready(function() {
 				generatePeople($(this).val());
 			});
 			generatePeople(1);
-			createDropDown(maxNumberOfPeople);
+			createDropDown(maxNumberOfPeople, $dropDownPeople);
 			$table.show();
 			
 		}).fail(function() {
@@ -122,7 +153,12 @@ $(document).ready(function() {
 		$links.click(function(e){
 			e.preventDefault();
 			var $type = $(this).attr('value');
+			//trying to maybe reset the content every time we click in the anchor tag
+			// $divContent.html("<span id='spanInfo'></span><select class='1-100'></select>");
+			$spanInfo.html("");
+			$dropDownPeople.html("");
 			linkClicked($type);
+
 		});
 	}).fail(function() {
 		alert('something went wrong!');
@@ -151,11 +187,6 @@ $(document).ready(function() {
 	
 	$table.hide();
 	$divContent.hide();
-
-
-	//get planet 1
-	// swapiModule.getPlanet(1,function(data) {
-	//     console.log("planet 1", data);
-	// });
+	
 
 });
