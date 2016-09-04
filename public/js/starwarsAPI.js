@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	"use strict";
+	//getting the number of things from the API using wrapper swapi
 	var maxNumberOfPeople = 0;
 	swapiModule.getPeople(function(data) {
 	    maxNumberOfPeople = data.count;
@@ -11,8 +12,6 @@ $(document).ready(function() {
 	    console.log("getting number of planets = "+ data.count);
 	});
 
-
-	var $generalList = $('#generalList');
 	var $content = $('#content');
 	var $links = $('.generalOptions');
 	var $table = $('#tableContent');
@@ -24,11 +23,21 @@ $(document).ready(function() {
 	var $spanInfo = $('#spanInfo');
 	//arr that has all the dropdowns...keep adding as we develop
 	var arrayDropDowns = [$dropDownPlanets, $dropDownPeople];
-
+	//initial values shown at the beginning
+	var initialNumberDisplayed = 5;
 	//global that print the table
 	var infoPlanets="";
 	var infoPeople="";
 
+
+
+
+	//function clears info that needs to be reset every time.
+	function clearInfo(){
+		$spanInfo.html("");
+		$dropDownPeople.html("");
+		$dropDownPlanets.html("");
+	}
 	//function turns off all the listeners for the non-active anchor tags
 	function turnOffListenersButCurrentOne($listener){
 		for(var i=0; i < arrayDropDowns.length; i++){
@@ -46,6 +55,8 @@ $(document).ready(function() {
 			if(arrayDropDowns[i] == $notMe){//the one we exclude'
 				//also show it.
 				$notMe.show();
+				//setting up the initial value for the displayed elemens when user clicks
+				$notMe.val(initialNumberDisplayed);
 			}
 			else{
 				arrayDropDowns[i].hide();
@@ -122,8 +133,8 @@ $(document).ready(function() {
 		hideTheRestDropDowns($dropDownPlanets);
 		$spanInfo.text("Number of Planets");
 		$divContent.show();
-		//initial value
-		generatePlanets(1);
+		//initial value when link is clicked
+		generatePlanets(initialNumberDisplayed);
 		// get the ajax request
 		$.get("http://swapi.co/api/planets/", {	
 		}).done(function(data) {
@@ -141,9 +152,8 @@ $(document).ready(function() {
 		hideTheRestDropDowns($dropDownPeople);
 		$spanInfo.text("Number of Characters");
 		$divContent.show();
-		//initial value
-		generatePeople(1);
-
+		//initial value when link is clicked
+		generatePeople(initialNumberDisplayed);
 		// get the ajax request
 		$.get("http://swapi.co/api/people/", {	
 		}).done(function(data) {
@@ -175,7 +185,7 @@ $(document).ready(function() {
 				break;
 		}
 	}
-
+	//initial ajax request
 	// get the ajax request
 	$.get("http://swapi.co/api/", {	
 	}).done(function(data) {
@@ -184,10 +194,8 @@ $(document).ready(function() {
 			e.preventDefault();
 			var $type = $(this).attr('value');
 			
-			//trying to maybe reset the content every time we click in the anchor tag
-			$spanInfo.html("");
-			$dropDownPeople.html("");
-			$dropDownPlanets.html("");
+			//clears the values that need to be reset every time the user clicks on the links
+			clearInfo();
 			
 			linkClicked($type);
 
