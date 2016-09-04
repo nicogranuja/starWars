@@ -130,13 +130,13 @@ $(document).ready(function() {
 	function drawTableSpecies(specie){
 		infoSpecies = $('#tableContent').html();
 		infoSpecies += "<tr>"+
-			// "<td><img src='/img/species/"+ specie.name+ ".png' class='charactersIMG center-block'</td>"+
+			"<td><img src='/img/species/"+ specie.name+ ".png' class='charactersIMG center-block'</td>"+
 			"<td><b>Name: </b>"+ specie.name+"</td>"+
 			"<td><b>Classification: </b>"+ specie.classification+"</td>"+
-			"<td><b>Designation: </b>"+ specie.designation+" </td>"+
+			"<td><b>Designation: </b>"+ specie.designation+"</td>"+
 			"<td><b>Average Lifespan: </b>"+ specie.average_lifespan+" Years.</td>"+
 			"<td><b>Language: </b>"+ specie.language+"</td>"+
-			"<td><b>Skin Colors: </b>"+ specie.skin_colors+" .</td>"+
+			"<td><b>Skin Colors: </b>"+ specie.skin_colors+"</td>"+
 			//get the origin probably use swapi
 			// "<td><b>Planet of Origin: </b>"+ specie.homeworld+"</td>"+
 			"</tr>";
