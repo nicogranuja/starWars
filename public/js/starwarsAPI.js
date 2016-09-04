@@ -11,7 +11,28 @@ $(document).ready(function() {
 	    maxNumberOfPlanets = data.count;
 	    console.log("getting number of planets = "+ data.count);
 	});
+	var maxNumberOfSpecies = 0;
+	swapiModule.getAllSpecies(function(data) {
+	    maxNumberOfSpecies = data.count;
+	    console.log("getting number of Species = "+ data.count);
 
+	});
+	var maxNumberOfStarships = 0;
+	swapiModule.getStarships(function(data) {
+	    maxNumberOfStarships = data.count;
+	    console.log("getting number of Starships = "+ data.count);
+	});
+	var maxNumberOfVehicles = 0;
+	swapiModule.getVehicles(function(data) {
+	    maxNumberOfVehicles = data.count;
+	    console.log("getting number of Vehicles = "+ data.count);
+	});
+	var maxNumberOfFilms = 0;
+	swapiModule.getFilms(function(data) {
+	    maxNumberOfFilms = data.count;
+	    console.log("getting number of Films = "+ data.count);
+	});
+	//////////////////************************** End of count *******////////////////
 	var $content = $('#content');
 	var $links = $('.generalOptions');
 	var $table = $('#tableContent');
