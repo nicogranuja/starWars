@@ -39,25 +39,35 @@ $(document).ready(function() {
 	//Dropdown lists
 	var $dropDownPeople = $(".dropDownPeople");
 	var $dropDownPlanets = $(".dropDownPlanets");
+	var $dropDownStarships = $(".dropDownStarships");
+	var $dropDownSpecies = $(".dropDownSpecies");
+	var $dropDownVehicles = $(".dropDownVehicles");
+	var $dropDownFilms = $(".dropDownFilms");
 	//*******************************
 	var $divContent = $('#divContent');
 	var $spanInfo = $('#spanInfo');
 	//arr that has all the dropdowns...keep adding as we develop
-	var arrayDropDowns = [$dropDownPlanets, $dropDownPeople];
+	var arrayDropDowns = [$dropDownPlanets, $dropDownPeople, $dropDownStarships, $dropDownSpecies, $dropDownVehicles, $dropDownFilms];
 	//initial values shown at the beginning
 	var initialNumberDisplayed = 5;
-	//global that print the table
+	//global that prints the table
 	var infoPlanets="";
 	var infoPeople="";
-
-
-
+	var infoStarships="";
+	var infoSpecies="";
+	var inforVehicles="";
+	var infoFilms="";
+	////******************
 
 	//function clears info that needs to be reset every time.
 	function clearInfo(){
 		$spanInfo.html("");
 		$dropDownPeople.html("");
 		$dropDownPlanets.html("");
+		$dropDownStarships.html("");
+		$dropDownSpecies.html("");
+		$dropDownVehicles.html("");
+		$dropDownFilms.html("");
 	}
 	//function turns off all the listeners for the non-active anchor tags
 	function turnOffListenersButCurrentOne($listener){
