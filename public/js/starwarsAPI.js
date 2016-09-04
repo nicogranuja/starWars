@@ -115,7 +115,6 @@ $(document).ready(function() {
 	}
 	//draws the table for one person at the time
 	function drawTablePeople(person){
-		// console.log(person.name);
 		infoPeople = $('#tableContent').html();
 		infoPeople += "<tr>"+
 			"<td><img src='/img/people/"+ person.name+ ".png' class='charactersIMG center-block'</td>"+
@@ -126,6 +125,23 @@ $(document).ready(function() {
 			"</tr>";
 
 		$table.html(infoPeople);
+	}
+	//draws the table for one specie at the time
+	function drawTableSpecies(specie){
+		infoSpecies = $('#tableContent').html();
+		infoSpecies += "<tr>"+
+			// "<td><img src='/img/species/"+ specie.name+ ".png' class='charactersIMG center-block'</td>"+
+			"<td><b>Name: </b>"+ specie.name+"</td>"+
+			"<td><b>Classification: </b>"+ specie.classification+"</td>"+
+			"<td><b>Designation: </b>"+ specie.designation+" </td>"+
+			"<td><b>Average Lifespan: </b>"+ specie.average_lifespan+" Years.</td>"+
+			"<td><b>Language: </b>"+ specie.language+"</td>"+
+			"<td><b>Skin Colors: </b>"+ specie.skin_colors+" .</td>"+
+			//get the origin probably use swapi
+			// "<td><b>Planet of Origin: </b>"+ specie.homeworld+"</td>"+
+			"</tr>";
+
+		$table.html(infoSpecies);
 	}
 	//ajax for getting each planet
 	function generatePlanets(numberOfPlanets){
@@ -142,7 +158,6 @@ $(document).ready(function() {
 	}
 	//ajax for getting each person and displaying its info
 	function generatePeople(numberOfPeople){
-		// infoPeople="";
 		$('#tableContent').html("");
 		//for loop that will run for the number that comes from the drop down list
 		for(var i=1; i <= numberOfPeople; i++){
@@ -158,6 +173,40 @@ $(document).ready(function() {
 		}
 		infoPeople="";
 	}
+	//ajax for getting each specie and displaying its info
+	function generateSpecies(numberOfSpecies){
+		$('#tableContent').html("");
+		//for loop that will run for the number that comes from the drop down list
+		for(var i=1; i <= numberOfSpecies; i++){
+			$.get("http://swapi.co/api/species/"+i+"/", {//gets the specific specie
+			}).done(function(specie) {	
+				drawTableSpecies(specie);//draws the row of info
+			}).fail(function() {
+				console.log('something went wrong in the ajaxForSpecies()!');
+			});
+		}
+		infoSpecies="";
+	}
+	//ajax that gets the starships
+	function ajaxForSpecies(){
+		createDropDown(maxNumberOfSpecies, $dropDownSpecies);
+		hideTheRestDropDowns($dropDownSpecies);
+		$spanInfo.text("Number of Species");
+		$divContent.show();
+		//initial value when link is clicked
+		generateSpecies(initialNumberDisplayed);
+		// get the ajax request
+		$.get("http://swapi.co/api/species/", {	
+		}).done(function(data) {
+			$dropDownSpecies.on( "change", function(){
+				generateSpecies($(this).val());
+
+			});
+			$table.show();	
+		}).fail(function() {alert('something went wrong in the ajaxForspecies()!');});
+		//end of ajax request
+	}
+	//ajax for the planets
 	function ajaxForPlanets(){
 		//dealing with drop downs make function
 		createDropDown(maxNumberOfPlanets, $dropDownPlanets);
@@ -209,11 +258,20 @@ $(document).ready(function() {
 				ajaxForPlanets();
 				break;
 			case 'films':
+				turnOffListenersButCurrentOne($dropDownPlanets);
 				break;
 			case 'species':
+				turnOffListenersButCurrentOne($dropDownPlanets);
+				ajaxForSpecies();
 				break;
 			case 'vehicles':
+				turnOffListenersButCurrentOne($dropDownPlanets);
 				break;
+			case 'starships':
+				turnOffListenersButCurrentOne($dropDownPlanets);
+				break;
+			default:
+				console.log("inside default linkClicked()");
 		}
 	}
 	//initial ajax request
@@ -224,12 +282,9 @@ $(document).ready(function() {
 		$links.click(function(e){
 			e.preventDefault();
 			var $type = $(this).attr('value');
-			
 			//clears the values that need to be reset every time the user clicks on the links
 			clearInfo();
-			
 			linkClicked($type);
-
 		});
 	}).fail(function() {
 		alert('something went wrong!');
