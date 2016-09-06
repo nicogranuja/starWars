@@ -55,10 +55,24 @@ $(document).ready(function() {
 	var infoPeople="";
 	var infoStarships="";
 	var infoSpecies="";
-	var inforVehicles="";
+	var infoVehicles="";
 	var infoFilms="";
 	////******************
 
+
+	//function that deletes the characters that mess up the image loading on screen
+	function IgnoreSpecialCharactersFromString(name){
+		var answer = name.split("");
+		
+		for(var i=0; i < answer.length; i++){
+			if(answer[i] == "/" || answer[i]== "'"){
+				answer[i] = "";
+			}
+		}
+		answer = answer.join("");
+		console.log(answer);
+		return answer;
+	}
 	//function clears info that needs to be reset every time.
 	function clearInfo(){
 		$spanInfo.html("");
@@ -103,7 +117,7 @@ $(document).ready(function() {
 	//draw the planets
 	function drawPlanets(planet){
 		infoPlanets += "<tr>"+
-			"<td><img src='/img/planets/"+ planet.name+ ".png' class='charactersIMG center-block'</td>"+
+			"<td><img src='/img/planets/"+ IgnoreSpecialCharactersFromString(planet.name)+ ".png' class='charactersIMG center-block'</td>"+
 			"<td><b>Name: </b>"+ planet.name+"</td>"+
 			"<td><b>Terrain: </b>"+ planet.terrain+"</td>"+
 			"<td><b>Gender: </b>"+ planet.climate+"</td>"+
@@ -117,7 +131,7 @@ $(document).ready(function() {
 	function drawTablePeople(person){
 		infoPeople = $('#tableContent').html();
 		infoPeople += "<tr>"+
-			"<td><img src='/img/people/"+ person.name+ ".png' class='charactersIMG center-block'</td>"+
+			"<td><img src='/img/people/"+ IgnoreSpecialCharactersFromString(person.name)+ ".png' class='charactersIMG center-block'</td>"+
 			"<td><b>Name: </b>"+ person.name+"</td>"+
 			"<td><b>Gender: </b>"+ person.gender+"</td>"+
 			"<td><b>Height: </b>"+ person.height+" Cm.</td>"+
@@ -130,7 +144,7 @@ $(document).ready(function() {
 	function drawTableSpecies(specie){
 		infoSpecies = $('#tableContent').html();
 		infoSpecies += "<tr>"+
-			"<td><img src='/img/species/"+ specie.name+ ".png' class='charactersIMG center-block'</td>"+
+			"<td><img src='/img/species/"+ IgnoreSpecialCharactersFromString(specie.name)+ ".png' class='charactersIMG center-block'</td>"+
 			"<td><b>Name: </b>"+ specie.name+"</td>"+
 			"<td><b>Classification: </b>"+ specie.classification+"</td>"+
 			"<td><b>Designation: </b>"+ specie.designation+"</td>"+
@@ -142,6 +156,23 @@ $(document).ready(function() {
 			"</tr>";
 
 		$table.html(infoSpecies);
+	}
+	//draws the table for one vehicles at the time
+	function drawTableVehicles(vehicle){
+		infoVehicles = $('#tableContent').html();
+		infoVehicles += "<tr>"+
+			"<td><img src='/img/vehicles/"+ IgnoreSpecialCharactersFromString(vehicle.name)+ ".png' class='charactersIMG center-block'</td>"+
+			"<td><b>Name: </b>"+ vehicle.name+"</td>"+
+			"<td><b>Model: </b>"+ vehicle.model+"</td>"+
+			"<td><b>Manufacturer: </b>"+ vehicle.manufacturer+" Years</td>"+
+			"<td><b>Passengers: </b>"+ vehicle.passengers+"</td>"+
+			"<td><b>Crew: </b>"+ vehicle.crew+"</td>"+
+			"<td><b>Atmosphering Speed: </b>"+ vehicle.max_atmosphering_speed+" </td>"+
+			"<td><b>Cost: </b>"+ vehicle.cost_in_credits+" Galactic credits</td>"+
+			"<td><b>Length: </b>"+ vehicle.length+" Meters</td>"+
+			"</tr>";
+
+		$table.html(infoVehicles);
 	}
 	//ajax for getting each planet
 	function generatePlanets(numberOfPlanets){
@@ -186,6 +217,42 @@ $(document).ready(function() {
 			});
 		}
 		infoSpecies="";
+	}
+	//ajax for getting each vehicle and displaying its info
+	function generateVehicles(numberOfVehicles){
+		$('#tableContent').html("");
+		//for loop that will run for the number that comes from the drop down list
+		for(var i=1; i <= numberOfVehicles; i++){
+			$.get("http://swapi.co/api/vehicles/"+i+"/", {//gets the specific specie
+			}).done(function(vehicle) {	
+				drawTableVehicles(vehicle);//draws the row of info
+			}).fail(function() {
+				// $spanInfo.append("<br><b>Failed loading some of the content</b>");
+				console.log('something went wrong in the ajaxForVehicles()! SECOND');
+			});
+		}
+		infoVehicles="";
+		// $panInfo.html("");
+	}
+	//ajax that gets the vehicles
+	function ajaxForVehicles(){
+		createDropDown(maxNumberOfVehicles, $dropDownVehicles);
+		hideTheRestDropDowns($dropDownVehicles);
+		$spanInfo.text("Number of Vehicles");
+		$divContent.show();
+		//initial value when link is clicked
+		generateVehicles(initialNumberDisplayed);
+		// get the ajax request
+		$.get("http://swapi.co/api/vehicles/", {	
+		}).done(function(data) {
+			$dropDownVehicles.on( "change", function(){
+				generateVehicles($(this).val());
+			});
+			$table.show();	
+		}).fail(function() {
+			alert('something went wrong in the ajaxForVehicles()! FIRST');
+		});
+		//end of ajax request
 	}
 	//ajax that gets the starships
 	function ajaxForSpecies(){
@@ -258,14 +325,15 @@ $(document).ready(function() {
 				ajaxForPlanets();
 				break;
 			case 'films':
-				turnOffListenersButCurrentOne($dropDownPlanets);
+				// turnOffListenersButCurrentOne($dropDownPlanets);
 				break;
 			case 'species':
-				turnOffListenersButCurrentOne($dropDownPlanets);
+				turnOffListenersButCurrentOne($dropDownSpecies);
 				ajaxForSpecies();
 				break;
 			case 'vehicles':
-				turnOffListenersButCurrentOne($dropDownPlanets);
+				turnOffListenersButCurrentOne($dropDownVehicles);
+				ajaxForVehicles();
 				break;
 			case 'starships':
 				turnOffListenersButCurrentOne($dropDownPlanets);
