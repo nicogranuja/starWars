@@ -194,7 +194,7 @@ $(document).ready(function() {
 	function drawTableFilms(film){
 		infoFilms = $('#tableContent').html();
 		infoFilms += "<tr>"+
-			// "<td><img src='/img/Films/"+ IgnoreSpecialCharactersFromString(film.name)+ ".png' class='charactersIMG center-block'</td>"+
+			"<td><img src='/img/Films/"+ IgnoreSpecialCharactersFromString(film.title)+ ".jpg' class='charactersIMG center-block'</td>"+
 			"<td><b>Title: </b>"+ film.title+"</td>"+
 			"<td><b>Director: </b>"+ film.director+"</td>"+
 			"<td><b>Producer: </b>"+ film.producer+" Years</td>"+
