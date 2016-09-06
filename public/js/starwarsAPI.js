@@ -4,33 +4,33 @@ $(document).ready(function() {
 	var maxNumberOfPeople = 0;
 	swapiModule.getPeople(function(data) {
 	    maxNumberOfPeople = data.count;
-	    console.log("getting number of people = "+ data.count);
+	    // console.log("getting number of people = "+ data.count);
 	});
 	var maxNumberOfPlanets = 0;
 	swapiModule.getPlanets(function(data) {
 	    maxNumberOfPlanets = data.count;
-	    console.log("getting number of planets = "+ data.count);
+	    // console.log("getting number of planets = "+ data.count);
 	});
 	var maxNumberOfSpecies = 0;
 	swapiModule.getAllSpecies(function(data) {
 	    maxNumberOfSpecies = data.count;
-	    console.log("getting number of Species = "+ data.count);
+	    // console.log("getting number of Species = "+ data.count);
 
 	});
 	var maxNumberOfStarships = 0;
 	swapiModule.getStarships(function(data) {
 	    maxNumberOfStarships = data.count;
-	    console.log("getting number of Starships = "+ data.count);
+	    // console.log("getting number of Starships = "+ data.count);
 	});
 	var maxNumberOfVehicles = 0;
 	swapiModule.getVehicles(function(data) {
 	    maxNumberOfVehicles = data.count;
-	    console.log("getting number of Vehicles = "+ data.count);
+	    // console.log("getting number of Vehicles = "+ data.count);
 	});
 	var maxNumberOfFilms = 0;
 	swapiModule.getFilms(function(data) {
 	    maxNumberOfFilms = data.count;
-	    console.log("getting number of Films = "+ data.count);
+	    // console.log("getting number of Films = "+ data.count);
 	});
 	//////////////////************************** End of count *******////////////////
 	var $content = $('#content');
@@ -70,7 +70,6 @@ $(document).ready(function() {
 			}
 		}
 		answer = answer.join("");
-		console.log(answer);
 		return answer;
 	}
 	//function clears info that needs to be reset every time.
@@ -86,7 +85,7 @@ $(document).ready(function() {
 	//function turns off all the listeners for the non-active anchor tags
 	function turnOffListenersButCurrentOne($listener){
 		for(var i=0; i < arrayDropDowns.length; i++){
-			if(arrayDropDowns[i] == $listener){//the one we exclude'
+			if(arrayDropDowns[i] == $listener){//the one we exclude
 				continue;
 			}
 			else{
@@ -174,7 +173,7 @@ $(document).ready(function() {
 
 		$table.html(infoVehicles);
 	}
-	//draws the table for one vehicles at the time
+	//draws the table for one starship at the time
 	function drawTableStarships(starship){
 		infoStarships = $('#tableContent').html();
 		infoStarships += "<tr>"+
@@ -190,6 +189,21 @@ $(document).ready(function() {
 			"</tr>";
 
 		$table.html(infoStarships);
+	}
+	//draws the table for one film at the time
+	function drawTableFilms(film){
+		infoFilms = $('#tableContent').html();
+		infoFilms += "<tr>"+
+			// "<td><img src='/img/Films/"+ IgnoreSpecialCharactersFromString(film.name)+ ".png' class='charactersIMG center-block'</td>"+
+			"<td><b>Title: </b>"+ film.title+"</td>"+
+			"<td><b>Director: </b>"+ film.director+"</td>"+
+			"<td><b>Producer: </b>"+ film.producer+" Years</td>"+
+			"<td><b>Release Date: </b>"+ film.release_date+"</td>"+
+			"<td><b>Created: </b>"+ film.created+"</td>"+
+			"<td><b>Edited: </b>"+ film.edited+" </td>"+
+			"</tr>";
+
+		$table.html(infoFilms);
 	}
 	//ajax for getting each planet
 	function generatePlanets(numberOfPlanets){
@@ -264,6 +278,38 @@ $(document).ready(function() {
 			});
 		}
 		infoStarships="";
+	}
+	//ajax for getting each specie and displaying its info
+	function generateFilms(numberOfFilms){
+		$('#tableContent').html("");
+		//for loop that will run for the number that comes from the drop down list
+		for(var i=1; i <= numberOfFilms; i++){
+			$.get("http://swapi.co/api/films/"+i+"/", {//gets the specific specie
+			}).done(function(film) {	
+				drawTableFilms(film);//draws the row of info
+			}).fail(function() {
+				console.log('something went wrong in the ajaxForFilms()!');
+			});
+		}
+		infoFilms="";
+	}
+	//ajax that gets the starships
+	function ajaxForFilms(){
+		createDropDown(maxNumberOfFilms, $dropDownFilms);
+		hideTheRestDropDowns($dropDownFilms);
+		$spanInfo.text("Number of Films");
+		$divContent.show();
+		//initial value when link is clicked
+		generateFilms(initialNumberDisplayed);
+		// get the ajax request
+		$.get("http://swapi.co/api/films/", {	
+		}).done(function(data) {
+			$dropDownFilms.on( "change", function(){
+				generateFilms($(this).val());
+			});
+			$table.show();	
+		}).fail(function() {alert('something went wrong in the ajaxForFilms()!');});
+		//end of ajax request
 	}
 	//ajax that gets the starships
 	function ajaxForStarships(){
@@ -375,7 +421,8 @@ $(document).ready(function() {
 				ajaxForPlanets();
 				break;
 			case 'films':
-				// turnOffListenersButCurrentOne($dropDownPlanets);
+				turnOffListenersButCurrentOne($dropDownFilms);
+				ajaxForFilms();
 				break;
 			case 'species':
 				turnOffListenersButCurrentOne($dropDownSpecies);
