@@ -174,6 +174,23 @@ $(document).ready(function() {
 
 		$table.html(infoVehicles);
 	}
+	//draws the table for one vehicles at the time
+	function drawTableStarships(starship){
+		infoStarships = $('#tableContent').html();
+		infoStarships += "<tr>"+
+			"<td><img src='/img/Starships/"+ IgnoreSpecialCharactersFromString(starship.name)+ ".png' class='charactersIMG center-block'</td>"+
+			"<td><b>Name: </b>"+ starship.name+"</td>"+
+			"<td><b>Model: </b>"+ starship.model+"</td>"+
+			"<td><b>Manufacturer: </b>"+ starship.manufacturer+" Years</td>"+
+			"<td><b>Passengers: </b>"+ starship.passengers+"</td>"+
+			"<td><b>Crew: </b>"+ starship.crew+"</td>"+
+			"<td><b>Atmosphering Speed: </b>"+ starship.max_atmosphering_speed+" </td>"+
+			"<td><b>Cost: </b>"+ starship.cost_in_credits+" Galactic credits</td>"+
+			"<td><b>Length: </b>"+ starship.length+" Meters</td>"+
+			"</tr>";
+
+		$table.html(infoStarships);
+	}
 	//ajax for getting each planet
 	function generatePlanets(numberOfPlanets){
 		//for loop that will run for the number that comes from the drop down list
@@ -233,6 +250,39 @@ $(document).ready(function() {
 		}
 		infoVehicles="";
 		// $panInfo.html("");
+	}
+	//ajax for getting each specie and displaying its info
+	function generateStarships(numberOfStarships){
+		$('#tableContent').html("");
+		//for loop that will run for the number that comes from the drop down list
+		for(var i=1; i <= numberOfStarships; i++){
+			$.get("http://swapi.co/api/starships/"+i+"/", {//gets the specific specie
+			}).done(function(starship) {	
+				drawTableStarships(starship);//draws the row of info
+			}).fail(function() {
+				console.log('something went wrong in the ajaxForStarships()!');
+			});
+		}
+		infoStarships="";
+	}
+	//ajax that gets the starships
+	function ajaxForStarships(){
+		createDropDown(maxNumberOfStarships, $dropDownStarships);
+		hideTheRestDropDowns($dropDownStarships);
+		$spanInfo.text("Number of Starships");
+		$divContent.show();
+		//initial value when link is clicked
+		generateStarships(initialNumberDisplayed);
+		// get the ajax request
+		$.get("http://swapi.co/api/starships/", {	
+		}).done(function(data) {
+			$dropDownStarships.on( "change", function(){
+				generateStarships($(this).val());
+
+			});
+			$table.show();	
+		}).fail(function() {alert('something went wrong in the ajaxForStarships()!');});
+		//end of ajax request
 	}
 	//ajax that gets the vehicles
 	function ajaxForVehicles(){
@@ -336,7 +386,8 @@ $(document).ready(function() {
 				ajaxForVehicles();
 				break;
 			case 'starships':
-				turnOffListenersButCurrentOne($dropDownPlanets);
+				turnOffListenersButCurrentOne($dropDownStarships);
+				ajaxForStarships();
 				break;
 			default:
 				console.log("inside default linkClicked()");
