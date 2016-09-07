@@ -1,3 +1,6 @@
+body{
+	padding-top: 5vh;
+}
 .container{
 	padding-top: 5vh;
 }
@@ -5,4 +8,11 @@
 .charactersIMG{
 	height:20vh;
 	width: 20vh;
+}
+
+#starWarsBar{
+	padding-bottom: 7vh;
+	/*padding-top: 0vh;*/
+	height:12vh;
+	width: 12vh;
 }
