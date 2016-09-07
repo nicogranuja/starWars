@@ -6,7 +6,7 @@ body{
 
 /*Classes------------------------------*/
 .container{
-	padding-top: 5vh;
+	padding: 5vh;
 }
 /*pictures displayed in the table content*/
 .charactersIMG{
@@ -23,6 +23,7 @@ body{
 }
 /*id for the whole navbar*/
 #navBar{
+	/*padding-bottom: 10px;*/
 	font-family: 'Droid Sans Mono', monospace;
 }
 /*ID's------------------------------*/

@@ -119,7 +119,7 @@ $(document).ready(function() {
 			"<td><img src='/img/planets/"+ IgnoreSpecialCharactersFromString(planet.name)+ ".png' class='charactersIMG center-block'</td>"+
 			"<td><b>Name: </b>"+ planet.name+"</td>"+
 			"<td><b>Terrain: </b>"+ planet.terrain+"</td>"+
-			"<td><b>Gender: </b>"+ planet.climate+"</td>"+
+			"<td><b>Climate: </b>"+ planet.climate+"</td>"+
 			"<td><b>Height: </b>"+ planet.gravity+" G's</td>"+
 			"<td><b>Mass: </b>"+ planet.population+"</td>"+
 			// "<td><b>Residents: </b>"+ planet.residents+"</td>"+
@@ -224,8 +224,8 @@ $(document).ready(function() {
 		//for loop that will run for the number that comes from the drop down list
 		for(var i=1; i <= numberOfPeople; i++){
 			//if that fixes error of the API that does not have a 17 character
-			if(i == 17)
-				continue;
+			// if(i == 17)
+			// 	continue;
 			$.get("http://swapi.co/api/people/"+i+"/", {//gets the specific person
 			}).done(function(person) {	
 				drawTablePeople(person);//draws the row of info
