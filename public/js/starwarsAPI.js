@@ -110,7 +110,9 @@ $(document).ready(function() {
 	//this function will create the drop down list with numbers
 	function createDropDown(max, $dropDown){
 	    for (var i=1;i<=max;i++){
-	        $dropDown.append($('<option></option>').val(i).html(i))
+	        $dropDown.append($('<option></option>').val(i).html(i));
+	        // $('.selectpicker').append($('<li></li>').val(i).html(i));
+	        
 	    }
 	}
 	//draw the planets
