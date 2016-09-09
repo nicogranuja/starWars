@@ -43,6 +43,11 @@ $(document).ready(function() {
 	var $dropDownSpecies = $(".dropDownSpecies");
 	var $dropDownVehicles = $(".dropDownVehicles");
 	var $dropDownFilms = $(".dropDownFilms");
+	//var type will contain the string defining each category whether it is human specie film etc
+	var $type = "";
+	//buttons
+	var $buttonShowAll = $('#buttonShowAll');
+	//buttons end
 	//*******************************
 	var $divContent = $('#divContent');
 	var $spanInfo = $('#spanInfo');
@@ -60,6 +65,33 @@ $(document).ready(function() {
 	var infoFilms="";
 	////******************
 
+
+	//function displayAllElements will display the max number of elements that the API has for the specific category
+	function displayAllElements(kind){
+		//kind will be vehicles, people, starships, etc
+		switch(kind){
+			case 'people':
+				generatePeople(maxNumberOfPeople);
+				break;
+			case 'planets':
+				generatePlanets(maxNumberOfPlanets);
+				break;
+			case 'films':
+				generateFilms(maxNumberOfFilms);
+				break;
+			case 'species':
+				generateSpecies(maxNumberOfSpecies);
+				break;
+			case 'vehicles':
+				generateVehicles(maxNumberOfVehicles);
+				break;
+			case 'starships':
+				generateStarships(maxNumberOfStarships);
+				break;
+			default:
+				console.log("inside default displayAllElements()");
+		}
+	}
 	// function that will show on the initial screen sample values from each link
 	function displayInitialSample(){
 		//probably call it when starwars is clicked
@@ -426,7 +458,6 @@ $(document).ready(function() {
 		}).done(function(data) {
 			$dropDownPeople.on( "change", function(){
 				generatePeople($(this).val());
-
 			});
 			$table.show();	
 		}).fail(function() {alert('something went wrong in the ajaxForPeople()!');});
@@ -471,18 +502,24 @@ $(document).ready(function() {
 		//listens to the clicks on the anchor tags and sends its value to the function 
 		$links.click(function(e){
 			e.preventDefault();
-			var $type = $(this).attr('value');
+			$type = $(this).attr('value');
 			//clears the values that need to be reset every time the user clicks on the links
 			clearInfo();
 			linkClicked($type);
 		});
+		//listener for the show all button
+		$buttonShowAll.click(function(e){
+			// console.log("the type you clicked is"+ $type);
+			displayAllElements($type);
+		});
+		
 	}).fail(function() {
 		alert('something went wrong in the main ajax request!');
 	});
 	//end of ajax request
 	$table.hide();
 	$divContent.hide();
-
+	//first screen seen that displays a sample
 	displayInitialSample();
 
 });
