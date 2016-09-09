@@ -59,6 +59,20 @@ $(document).ready(function() {
 	var infoFilms="";
 	////******************
 
+	// function that will show on the initial screen sample values from each link
+	function displayInitialSample(){
+		//probably call it when starwars is clicked
+		clearInfo();
+		$spanInfo.html("<h4><b>Sample info from the API</b></h4>");
+		$table.show();
+		//print out the sample 1 per each.
+		generateStarships(2);//no values on 1
+		generateVehicles(4);
+		generateSpecies(1);
+		generateFilms(1);
+		generatePlanets(1);
+		generatePeople(1);						
+	}
 
 	//function that deletes the characters that mess up the image loading on screen
 	function IgnoreSpecialCharactersFromString(name){
@@ -112,11 +126,12 @@ $(document).ready(function() {
 	    for (var i=1;i<=max;i++){
 	        $dropDown.append($('<option></option>').val(i).html(i));
 	        // $('.selectpicker').append($('<li></li>').val(i).html(i));
-	        
+
 	    }
 	}
 	//draw the planets
 	function drawPlanets(planet){
+		infoPlanets = $('#tableContent').html();
 		infoPlanets += "<tr>"+
 			"<td><img src='/img/planets/"+ IgnoreSpecialCharactersFromString(planet.name)+ ".png' class='charactersIMG center-block'</td>"+
 			"<td><b>Name: </b>"+ planet.name+"</td>"+
@@ -209,6 +224,7 @@ $(document).ready(function() {
 	}
 	//ajax for getting each planet
 	function generatePlanets(numberOfPlanets){
+		$('#tableContent').html("");
 		//for loop that will run for the number that comes from the drop down list
 		for(var i=1; i <= numberOfPlanets; i++){
 			$.get("http://swapi.co/api/planets/"+i+"/", {//gets the specific person
@@ -455,9 +471,12 @@ $(document).ready(function() {
 			linkClicked($type);
 		});
 	}).fail(function() {
-		alert('something went wrong!');
+		alert('something went wrong in the main ajax request!');
 	});
 	//end of ajax request
 	$table.hide();
-	$divContent.hide();	
+	$divContent.hide();
+
+	displayInitialSample();
+
 });
