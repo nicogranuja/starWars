@@ -30,4 +30,12 @@ body{
 	/*padding-bottom: 10px;*/
 	font-family: 'Droid Sans Mono', monospace;
 }
+#searchBar{
+	padding-right: 80px;
+	width:100%;
+}
+
+#errorLoading{
+	color:red;
+}
 /*ID's------------------------------*/

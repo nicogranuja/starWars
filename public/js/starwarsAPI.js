@@ -46,6 +46,7 @@ $(document).ready(function() {
 	//*******************************
 	var $divContent = $('#divContent');
 	var $spanInfo = $('#spanInfo');
+	var $errorLoadingAPI = $('#errorLoading');
 	//arr that has all the dropdowns...keep adding as we develop
 	var arrayDropDowns = [$dropDownPlanets, $dropDownPeople, $dropDownStarships, $dropDownSpecies, $dropDownVehicles, $dropDownFilms];
 	//initial values shown at the beginning
@@ -63,7 +64,8 @@ $(document).ready(function() {
 	function displayInitialSample(){
 		//probably call it when starwars is clicked
 		clearInfo();
-		$spanInfo.html("<h4><b>Sample info from the API</b></h4>");
+		$spanInfo.html("<h4><b>Sample piece of data from each class on the API</b></h4>");
+		$spanInfo.append("<h5>Starships, Vehicles, Species, Films, Planets, People</h5>");
 		$table.show();
 		//print out the sample 1 per each.
 		generateStarships(2);//no values on 1
@@ -95,6 +97,7 @@ $(document).ready(function() {
 		$dropDownSpecies.html("");
 		$dropDownVehicles.html("");
 		$dropDownFilms.html("");
+		$errorLoadingAPI.html("");
 	}
 	//function turns off all the listeners for the non-active anchor tags
 	function turnOffListenersButCurrentOne($listener){
@@ -231,6 +234,7 @@ $(document).ready(function() {
 			}).done(function(planet) {
 				drawPlanets(planet);//draws the row of info
 			}).fail(function() {
+				$errorLoadingAPI.text("Error pulling all the data from the API");
 				console.log('something went wrong in the ajaxForPeople()!');
 			});
 		}
@@ -241,13 +245,12 @@ $(document).ready(function() {
 		$('#tableContent').html("");
 		//for loop that will run for the number that comes from the drop down list
 		for(var i=1; i <= numberOfPeople; i++){
-			//if that fixes error of the API that does not have a 17 character
-			// if(i == 17)
-			// 	continue;
+			//for loop that will run for the number that comes from the drop down list
 			$.get("http://swapi.co/api/people/"+i+"/", {//gets the specific person
 			}).done(function(person) {	
 				drawTablePeople(person);//draws the row of info
 			}).fail(function() {
+				$errorLoadingAPI.text("Error pulling all the data from the API");
 				console.log('something went wrong in the ajaxForPeople()!');
 			});
 		}
@@ -262,6 +265,7 @@ $(document).ready(function() {
 			}).done(function(specie) {	
 				drawTableSpecies(specie);//draws the row of info
 			}).fail(function() {
+				$errorLoadingAPI.text("Error pulling all the data from the API");
 				console.log('something went wrong in the ajaxForSpecies()!');
 			});
 		}
@@ -277,6 +281,7 @@ $(document).ready(function() {
 				drawTableVehicles(vehicle);//draws the row of info
 			}).fail(function() {
 				// $spanInfo.append("<br><b>Failed loading some of the content</b>");
+				$errorLoadingAPI.text("Error pulling all the data from the API");
 				console.log('something went wrong in the ajaxForVehicles()! SECOND');
 			});
 		}
@@ -292,6 +297,7 @@ $(document).ready(function() {
 			}).done(function(starship) {	
 				drawTableStarships(starship);//draws the row of info
 			}).fail(function() {
+				$errorLoadingAPI.text("Error pulling all the data from the API");
 				console.log('something went wrong in the ajaxForStarships()!');
 			});
 		}
@@ -306,6 +312,7 @@ $(document).ready(function() {
 			}).done(function(film) {	
 				drawTableFilms(film);//draws the row of info
 			}).fail(function() {
+				$errorLoadingAPI.text("Error pulling all the data from the API");
 				console.log('something went wrong in the ajaxForFilms()!');
 			});
 		}
@@ -342,7 +349,6 @@ $(document).ready(function() {
 		}).done(function(data) {
 			$dropDownStarships.on( "change", function(){
 				generateStarships($(this).val());
-
 			});
 			$table.show();	
 		}).fail(function() {alert('something went wrong in the ajaxForStarships()!');});
