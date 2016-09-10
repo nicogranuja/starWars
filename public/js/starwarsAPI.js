@@ -64,7 +64,10 @@ $(document).ready(function() {
 	var infoVehicles="";
 	var infoFilms="";
 	////******************
-
+	//search bar rows from the table
+	// var $rows = $('tr');
+	// var $searchBar = $('#searchBar');
+	//end search bar
 
 	//function displayAllElements will display the max number of elements that the API has for the specific category
 	function displayAllElements(kind){
@@ -512,7 +515,21 @@ $(document).ready(function() {
 			// console.log("the type you clicked is"+ $type);
 			displayAllElements($type);
 		});
-		
+		//listener for the search bar key up looking for the characters on screen
+		// $searchBar.keyup(function() {
+		// 	console.log("key pressed");
+		// 	console.log($rows);
+		//     var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
+		//         reg = RegExp(val, 'i'),
+		//         text;
+		    
+		//     $rows.show().filter(function() {
+		//         text = $(this).text().replace(/\s+/g, ' ');
+		//         return !reg.test(text);
+		//     }).hide();
+		// });
+
+
 	}).fail(function() {
 		alert('something went wrong in the main ajax request!');
 	});
