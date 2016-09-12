@@ -80,7 +80,7 @@ $(document).ready(function() {
 	//kind: people,vehicles...
 	//element: people.name= Luke Skywalker... in this case element will  be an array
 	function getPopOver(kind, element){
-		var popOver= "<button type='button' class='btn btn-lg btn-danger'"+ 
+		var popOver= "<button type='button' class='btn'"+ 
 		"data-toggle='popover' title='Popover title' data-content='Some info here'>"+
 		"Click to toggle popover</button>";
 		
