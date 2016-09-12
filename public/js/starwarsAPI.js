@@ -65,8 +65,8 @@ $(document).ready(function() {
 	var infoFilms="";
 	////******************
 	//search bar rows from the table
-	// var $rows = $('tr');
-	// var $searchBar = $('#searchBar');
+	var $rows = $('tr');
+	var $searchBar = $('#searchBar');
 	//end search bar
 
 	//function to call when the ajax request fails for some specific elements.
@@ -106,7 +106,7 @@ $(document).ready(function() {
 		clearInfo();
 		$spanInfo.html("<h4><b>Sample piece of data from each class on the API</b></h4>");
 		// $spanInfo.append("<h4 class='label label-info lb-md'>Starships, Vehicles, Species, Films, Planets, People</h4>");
-		$spanInfo.append("<table class='table tableHeaderHome label-info lb-sm'><th>Starships</th><th>Vehicles</th><th>Species</th><th>Films</th><th>Planets</th><th>People</th></table>");
+		$spanInfo.append("<table class='table tableHeaderHome label-default lb-sm'><th>Starships</th><th>Vehicles</th><th>Species</th><th>Films</th><th>Planets</th><th>People</th></table>");
 		$table.show();
 		//print out the sample 1 per each.
 		generateStarships(2);//no values on 1
