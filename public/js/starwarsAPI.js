@@ -69,6 +69,11 @@ $(document).ready(function() {
 	// var $searchBar = $('#searchBar');
 	//end search bar
 
+	//function to call when the ajax request fails for some specific elements.
+	//some API links are broken producing a 404 not found error message
+	function errorMessagePullingDataFromAPI(){
+		$errorLoadingAPI.text("Error pulling all the data from the API");
+	}
 	//function displayAllElements will display the max number of elements that the API has for the specific category
 	function displayAllElements(kind){
 		//kind will be vehicles, people, starships, etc
@@ -100,7 +105,8 @@ $(document).ready(function() {
 		//probably call it when starwars is clicked
 		clearInfo();
 		$spanInfo.html("<h4><b>Sample piece of data from each class on the API</b></h4>");
-		$spanInfo.append("<h5>Starships, Vehicles, Species, Films, Planets, People</h5>");
+		// $spanInfo.append("<h4 class='label label-info lb-md'>Starships, Vehicles, Species, Films, Planets, People</h4>");
+		$spanInfo.append("<table class='table tableHeaderHome label-info lb-sm'><th>Starships</th><th>Vehicles</th><th>Species</th><th>Films</th><th>Planets</th><th>People</th></table>");
 		$table.show();
 		//print out the sample 1 per each.
 		generateStarships(2);//no values on 1
@@ -269,7 +275,7 @@ $(document).ready(function() {
 			}).done(function(planet) {
 				drawPlanets(planet);//draws the row of info
 			}).fail(function() {
-				$errorLoadingAPI.text("Error pulling all the data from the API");
+				errorMessagePullingDataFromAPI();
 				console.log('something went wrong in the ajaxForPeople()!');
 			});
 		}
@@ -285,7 +291,7 @@ $(document).ready(function() {
 			}).done(function(person) {	
 				drawTablePeople(person);//draws the row of info
 			}).fail(function() {
-				$errorLoadingAPI.text("Error pulling all the data from the API");
+				errorMessagePullingDataFromAPI();
 				console.log('something went wrong in the ajaxForPeople()!');
 			});
 		}
@@ -300,7 +306,7 @@ $(document).ready(function() {
 			}).done(function(specie) {	
 				drawTableSpecies(specie);//draws the row of info
 			}).fail(function() {
-				$errorLoadingAPI.text("Error pulling all the data from the API");
+				errorMessagePullingDataFromAPI();
 				console.log('something went wrong in the ajaxForSpecies()!');
 			});
 		}
@@ -316,7 +322,7 @@ $(document).ready(function() {
 				drawTableVehicles(vehicle);//draws the row of info
 			}).fail(function() {
 				// $spanInfo.append("<br><b>Failed loading some of the content</b>");
-				$errorLoadingAPI.text("Error pulling all the data from the API");
+				errorMessagePullingDataFromAPI();
 				console.log('something went wrong in the ajaxForVehicles()! SECOND');
 			});
 		}
@@ -332,7 +338,7 @@ $(document).ready(function() {
 			}).done(function(starship) {	
 				drawTableStarships(starship);//draws the row of info
 			}).fail(function() {
-				$errorLoadingAPI.text("Error pulling all the data from the API");
+				errorMessagePullingDataFromAPI();
 				console.log('something went wrong in the ajaxForStarships()!');
 			});
 		}
@@ -347,7 +353,7 @@ $(document).ready(function() {
 			}).done(function(film) {	
 				drawTableFilms(film);//draws the row of info
 			}).fail(function() {
-				$errorLoadingAPI.text("Error pulling all the data from the API");
+				errorMessagePullingDataFromAPI();
 				console.log('something went wrong in the ajaxForFilms()!');
 			});
 		}
@@ -516,18 +522,18 @@ $(document).ready(function() {
 			displayAllElements($type);
 		});
 		//listener for the search bar key up looking for the characters on screen
-		// $searchBar.keyup(function() {
-		// 	console.log("key pressed");
-		// 	console.log($rows);
-		//     var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
-		//         reg = RegExp(val, 'i'),
-		//         text;
+		$searchBar.keyup(function() {
+			console.log("key pressed");
+			console.log($rows);
+		    var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
+		        reg = RegExp(val, 'i'),
+		        text;
 		    
-		//     $rows.show().filter(function() {
-		//         text = $(this).text().replace(/\s+/g, ' ');
-		//         return !reg.test(text);
-		//     }).hide();
-		// });
+		    $rows.show().filter(function() {
+		        text = $(this).text().replace(/\s+/g, ' ');
+		        return !reg.test(text);
+		    }).hide();
+		});
 
 
 	}).fail(function() {

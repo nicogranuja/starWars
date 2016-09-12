@@ -17,6 +17,22 @@ body{
 	width:5%;
 	height:25px;
 }
+/*label classes*/
+.lb-sm {
+  font-size: 14px;
+}
+
+.lb-md {
+  font-size: 18px;
+}
+
+.lb-lg {
+  font-size: 22px;
+}
+/*labels*/
+.tableHeaderHome{
+	color:white;
+}
 /*Classes------------------------------*/
 
 /*ID's------------------------------*/
@@ -36,6 +52,6 @@ body{
 }
 
 #errorLoading{
-	color:red;
+	/*color:red;*/
 }
 /*ID's------------------------------*/
