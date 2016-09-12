@@ -65,9 +65,29 @@ $(document).ready(function() {
 	var infoFilms="";
 	////******************
 	//search bar rows from the table
-	var $rows = $('tr');
+	var $rows = $('#table content tr');
 	var $searchBar = $('#searchBar');
 	//end search bar
+
+	
+
+	//jasvascript to activate the popover functionality
+	$(document).ready(function(){
+    	$('[data-toggle="popover"]').popover(); 
+	});
+
+	//function that will use the arrays sent from the ajax request and return the data in the form of a PopOver
+	//kind: people,vehicles...
+	//element: people.name= Luke Skywalker... in this case element will  be an array
+	function getPopOver(kind, element){
+		var popOver= "<button type='button' class='btn btn-lg btn-danger'"+ 
+		"data-toggle='popover' title='Popover title' data-content='Some info here'>"+
+		"Click to toggle popover</button>";
+		
+		return popOver;
+	}
+
+
 
 	//function to call when the ajax request fails for some specific elements.
 	//some API links are broken producing a 404 not found error message
@@ -167,7 +187,7 @@ $(document).ready(function() {
 	}
 	//this function will create the drop down list with numbers
 	function createDropDown(max, $dropDown){
-	    for (var i=1;i<=max;i++){
+	    for (var i=1; i<=max; i++){
 	        $dropDown.append($('<option></option>').val(i).html(i));
 	        // $('.selectpicker').append($('<li></li>').val(i).html(i));
 
@@ -196,6 +216,7 @@ $(document).ready(function() {
 			"<td><b>Gender: </b>"+ person.gender+"</td>"+
 			"<td><b>Height: </b>"+ person.height+" Cm.</td>"+
 			"<td><b>Mass: </b>"+ person.mass+" Kg.</td>"+
+			"<td><b>Starships used: </b>"+ getPopOver(person, "starships")+" </td>";
 			"</tr>";
 
 		$table.html(infoPeople);
@@ -542,7 +563,9 @@ $(document).ready(function() {
 	//end of ajax request
 	$table.hide();
 	$divContent.hide();
+
 	//first screen seen that displays a sample
 	displayInitialSample();
+
 
 });
