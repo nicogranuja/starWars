@@ -187,11 +187,12 @@ $(document).ready(function() {
 	}
 	//this function will create the drop down list with numbers
 	function createDropDown(max, $dropDown){
-	    for (var i=1; i<=max; i++){
-	        $dropDown.append($('<option></option>').val(i).html(i));
-	        // $('.selectpicker').append($('<li></li>').val(i).html(i));
-
+	    //create a dropdown every 5
+	    for (var i=1; i<max; i++){
+	    	if(i%5==0)
+	        	$dropDown.append($('<option></option>').val(i).html(i));
 	    }
+	    $dropDown.append($('<option></option>').val(max).html('Max'));
 	}
 	//draw the planets
 	function drawPlanets(planet){
