@@ -65,7 +65,7 @@ $(document).ready(function() {
 	var infoFilms="";
 	////******************
 	//search bar rows from the table
-	var $rows = $('#table content tr');
+	var $rows;
 	var $searchBar = $('#searchBar');
 	//end search bar
 
@@ -544,8 +544,8 @@ $(document).ready(function() {
 		});
 		//listener for the search bar key up looking for the characters on screen
 		$searchBar.keyup(function() {
-			console.log("key pressed");
-			console.log($rows);
+			$rows = $('#tableContent tr');
+
 		    var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
 		        reg = RegExp(val, 'i'),
 		        text;
