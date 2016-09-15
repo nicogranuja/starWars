@@ -69,22 +69,35 @@ $(document).ready(function() {
 	var $searchBar = $('#searchBar');
 	//end search bar
 
-	
 
-	//jasvascript to activate the popover functionality
-	$(document).ready(function(){
-    	$('[data-toggle="popover"]').popover(); 
-	});
+	//function will generate the ajax request for a link sent and it will retrieve some data in the string form
+	function getAjax(link){
+		//ajax request
+		var content="";
+		$.get(link, {//gets the specific person
+		}).done(function(data) {
+			content += data.name +"\n";
+			console.log(content);	
+		}).fail(function() {
+			// errorMessagePullingDataFromAPI();
+			console.log('failing in the getPopOver');
+		});
+		return content;
+	}
+	//function that will create the popOver
+	//name: people,vehicles...
+	function getPopOver(name, array){
 
-	//function that will use the arrays sent from the ajax request and return the data in the form of a PopOver
-	//kind: people,vehicles...
-	//element: people.name= Luke Skywalker... in this case element will  be an array
-	function getPopOver(kind, element){
-		var popOver= "<button type='button' class='btn'"+ 
-		"data-toggle='popover' title='Popover title' data-content='Some info here'>"+
-		"Click to toggle popover</button>";
-		
-		return popOver;
+		if(array.length != 0){
+			var popOver= "<button type='button' class='btn btn-sm'"+ 
+			"data-toggle='popover' data-placement='bottom' title='"+name+"' data-content=''>"+
+			name+"</button>";
+			
+			return popOver;	
+		}
+		else{
+			return "None";
+		}
 	}
 
 
@@ -217,10 +230,22 @@ $(document).ready(function() {
 			"<td><b>Gender: </b>"+ person.gender+"</td>"+
 			"<td><b>Height: </b>"+ person.height+" Cm.</td>"+
 			"<td><b>Mass: </b>"+ person.mass+" Kg.</td>"+
-			"<td><b>Starships used: </b>"+ getPopOver(person, "starships")+" </td>";
+			"<td><b>Starships Piloted: </b>"+
+			"<button type='button' class='btn btn-sm'"+ 
+			"data-toggle='popover' data-placement='bottom' title='Starship' data-content=''>Starships</button></td>";
 			"</tr>";
 
+		// initializePopOver('Starships', person.starships);
+		$('[data-toggle="popover"]').popover({
+				html: true,
+				trigger: 'hover',
+				placement: 'bottom',
+				content: function(){
+					return '<li>'+person.starships+'</li>';
+				}
+			});
 		$table.html(infoPeople);
+		
 	}
 	//draws the table for one specie at the time
 	function drawTableSpecies(specie){
@@ -298,7 +323,7 @@ $(document).ready(function() {
 				drawPlanets(planet);//draws the row of info
 			}).fail(function() {
 				errorMessagePullingDataFromAPI();
-				console.log('something went wrong in the ajaxForPeople()!');
+				// console.log('something went wrong in the ajaxForPeople()!');
 			});
 		}
 		infoPlanets="";
@@ -314,7 +339,7 @@ $(document).ready(function() {
 				drawTablePeople(person);//draws the row of info
 			}).fail(function() {
 				errorMessagePullingDataFromAPI();
-				console.log('something went wrong in the ajaxForPeople()!');
+				// console.log('something went wrong in the ajaxForPeople()!');
 			});
 		}
 		infoPeople="";
@@ -329,7 +354,7 @@ $(document).ready(function() {
 				drawTableSpecies(specie);//draws the row of info
 			}).fail(function() {
 				errorMessagePullingDataFromAPI();
-				console.log('something went wrong in the ajaxForSpecies()!');
+				// console.log('something went wrong in the ajaxForSpecies()!');
 			});
 		}
 		infoSpecies="";
@@ -345,7 +370,7 @@ $(document).ready(function() {
 			}).fail(function() {
 				// $spanInfo.append("<br><b>Failed loading some of the content</b>");
 				errorMessagePullingDataFromAPI();
-				console.log('something went wrong in the ajaxForVehicles()! SECOND');
+				// console.log('something went wrong in the ajaxForVehicles()! SECOND');
 			});
 		}
 		infoVehicles="";
@@ -361,7 +386,7 @@ $(document).ready(function() {
 				drawTableStarships(starship);//draws the row of info
 			}).fail(function() {
 				errorMessagePullingDataFromAPI();
-				console.log('something went wrong in the ajaxForStarships()!');
+				// console.log('something went wrong in the ajaxForStarships()!');
 			});
 		}
 		infoStarships="";
@@ -376,7 +401,7 @@ $(document).ready(function() {
 				drawTableFilms(film);//draws the row of info
 			}).fail(function() {
 				errorMessagePullingDataFromAPI();
-				console.log('something went wrong in the ajaxForFilms()!');
+				// console.log('something went wrong in the ajaxForFilms()!');
 			});
 		}
 		infoFilms="";
