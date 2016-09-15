@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	"use strict";
+
 	//getting the number of things from the API using wrapper swapi
 	var maxNumberOfPeople = 0;
 	swapiModule.getPeople(function(data) {
@@ -72,38 +73,7 @@ $(document).ready(function() {
 	
 
 
-	//function will generate the ajax request for a link sent and it will retrieve some data in the string form
-	function getAjax(link){
-		//ajax request
-		var popOverContent="";
-		$.get(link, {//gets the specific person
-		}).done(function(data) {
-			popOverContent = data.name;
-			// console.log(popOverContent);	
-		}).fail(function() {
-			// errorMessagePullingDataFromAPI();
-			console.log('failing in the getPopOver');
-		});
-		return popOverContent;
-	}
-	//function that will create the popOver
-	//name: people,vehicles...
-	function getPopOverContent(array){
-		var content = "<ul>";
-		if(array.length != 0){
-			for(var i=0; i < array.length; i++){
-				content += "<li>"+getAjax(array[i])+"</li>";
-				// content += "<li>"+array[i]+"</li>";
-			}
-			content += "</ul>";
-			return content;	
-		}
-		else{
-			return "None";
-		}
-	}
-
-
+	
 
 	//function to call when the ajax request fails for some specific elements.
 	//some API links are broken producing a 404 not found error message
@@ -234,20 +204,11 @@ $(document).ready(function() {
 			"<td><b>Height: </b>"+ person.height+" Cm.</td>"+
 			"<td><b>Mass: </b>"+ person.mass+" Kg.</td>"+
 			"<td><b>Starships Piloted: </b>"+
-			"<a class='btn btn-info' rel='popover' data-img=''>Starships</a>"
+			//make a method here to avoid printing the popover on people who have empty arrays
+			//print something here
 			"</tr>";
 
 		$table.html(infoPeople);
-		// initializePopOver('Starships', person.starships);
-		$('a[rel=popover]').popover({
-	  		html: true,
-	  		trigger: 'hover',
-			placement: 'bottom',
-			content: function(){
-				return getPopOverContent(person.starships);
-				// return ""
-			}
-		});
 		
 	}
 	//draws the table for one specie at the time
