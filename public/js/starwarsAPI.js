@@ -69,31 +69,34 @@ $(document).ready(function() {
 	var $searchBar = $('#searchBar');
 	//end search bar
 
+	
+
 
 	//function will generate the ajax request for a link sent and it will retrieve some data in the string form
 	function getAjax(link){
 		//ajax request
-		var content="";
+		var popOverContent="";
 		$.get(link, {//gets the specific person
 		}).done(function(data) {
-			content += data.name +"\n";
-			console.log(content);	
+			popOverContent = data.name;
+			// console.log(popOverContent);	
 		}).fail(function() {
 			// errorMessagePullingDataFromAPI();
 			console.log('failing in the getPopOver');
 		});
-		return content;
+		return popOverContent;
 	}
 	//function that will create the popOver
 	//name: people,vehicles...
-	function getPopOver(name, array){
-
+	function getPopOverContent(array){
+		var content = "<ul>";
 		if(array.length != 0){
-			var popOver= "<button type='button' class='btn btn-sm'"+ 
-			"data-toggle='popover' data-placement='bottom' title='"+name+"' data-content=''>"+
-			name+"</button>";
-			
-			return popOver;	
+			for(var i=0; i < array.length; i++){
+				content += "<li>"+getAjax(array[i])+"</li>";
+				// content += "<li>"+array[i]+"</li>";
+			}
+			content += "</ul>";
+			return content;	
 		}
 		else{
 			return "None";
@@ -231,20 +234,20 @@ $(document).ready(function() {
 			"<td><b>Height: </b>"+ person.height+" Cm.</td>"+
 			"<td><b>Mass: </b>"+ person.mass+" Kg.</td>"+
 			"<td><b>Starships Piloted: </b>"+
-			"<button type='button' class='btn btn-sm'"+ 
-			"data-toggle='popover' data-placement='bottom' title='Starship' data-content=''>Starships</button></td>";
+			"<a class='btn btn-info' rel='popover' data-img=''>Starships</a>"
 			"</tr>";
 
-		// initializePopOver('Starships', person.starships);
-		$('[data-toggle="popover"]').popover({
-				html: true,
-				trigger: 'hover',
-				placement: 'bottom',
-				content: function(){
-					return '<li>'+person.starships+'</li>';
-				}
-			});
 		$table.html(infoPeople);
+		// initializePopOver('Starships', person.starships);
+		$('a[rel=popover]').popover({
+	  		html: true,
+	  		trigger: 'hover',
+			placement: 'bottom',
+			content: function(){
+				return getPopOverContent(person.starships);
+				// return ""
+			}
+		});
 		
 	}
 	//draws the table for one specie at the time
