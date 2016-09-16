@@ -71,20 +71,22 @@ $(document).ready(function() {
 	//end search bar
 
 	
-
-	function drawModal(array, name){
+	//array will be the array of api links
+	//name will be the object's name attribute used for creating the modal and assigning its id
+	//kind  will be used to know what information we are handling.
+	function drawModal(array, name, kind){
 		var content="";
 		var name = name.replace(/ /g, '');//remove white space
-		console.log(name);
 		//when emtpy array
 		if(array.length == 0)
 			return "None";
-
+		//loop through the array and call an ajax request for each link that comes in the array
+		//when we get the data assign it to the modal we just returned.
 		array.forEach(function(element,index,array){
 			$.when($.ajax(array[index])).then(function(data){
-				content +="<li>"+data.name+"</li>";
+				content +="<li>"+data.name;
+				content += "<img src='/img/"+kind+"/"+ IgnoreSpecialCharactersFromString(data.name)+ ".png' class='charactersIMG center-block'</li>";
 				$('#'+name+'').html(content);
-				console.log(data.name);
 			});
 		});
 
@@ -230,7 +232,7 @@ $(document).ready(function() {
 			"<td><b>Starships Piloted: </b>"+
 			//make a method here to avoid printing the popover on people who have empty arrays
 			//print something here
-				drawModal(person.starships, person.name)+
+			drawModal(person.starships, person.name, 'starships')+
 			"</td>"+
 			"</tr>";
 
@@ -275,7 +277,7 @@ $(document).ready(function() {
 	function drawTableStarships(starship){
 		infoStarships = $('#tableContent').html();
 		infoStarships += "<tr>"+
-			"<td><img src='/img/Starships/"+ IgnoreSpecialCharactersFromString(starship.name)+ ".png' class='charactersIMG center-block'</td>"+
+			"<td><img src='/img/starships/"+ IgnoreSpecialCharactersFromString(starship.name)+ ".png' class='charactersIMG center-block'</td>"+
 			"<td><b>Name: </b>"+ starship.name+"</td>"+
 			"<td><b>Model: </b>"+ starship.model+"</td>"+
 			"<td><b>Manufacturer: </b>"+ starship.manufacturer+" Years</td>"+
