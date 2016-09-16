@@ -72,8 +72,30 @@ $(document).ready(function() {
 
 	
 
+	function drawModal(array, name){
+		
+		//when emtpy array
+		if(array.length == 0)
+			return "None";
 
-	
+		array.forEach(function(element,index,array){
+			$.when($.ajax(array[index])).then(function(data){
+				$('#'+name+'').append(data.name);
+				console.log(data.name);
+
+			});
+		});
+
+		var modal = 
+		"<button type='button' class='btn btn-primary' data-toggle='modal' data-target='."+name+"'>Small modal</button>"+
+		"<div class='modal fade "+name+"' tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel'>"+
+		  "<div class='modal-dialog modal-sm' role='document'>"+
+		    "<div class='modal-content' id='"+name+"'>"+
+		"</div></div></div>";
+
+		return modal;
+	}
+
 
 	//function to call when the ajax request fails for some specific elements.
 	//some API links are broken producing a 404 not found error message
@@ -116,7 +138,7 @@ $(document).ready(function() {
 		$table.show();
 		//print out the sample 1 per each.
 		generateStarships(2);//no values on 1
-		generateVehicles(4);
+		generateVehicles(4);//no values on first 3
 		generateSpecies(1);
 		generateFilms(1);
 		generatePlanets(1);
@@ -206,6 +228,8 @@ $(document).ready(function() {
 			"<td><b>Starships Piloted: </b>"+
 			//make a method here to avoid printing the popover on people who have empty arrays
 			//print something here
+				drawModal(person.starships, 'starships')+
+			"</td>"+
 			"</tr>";
 
 		$table.html(infoPeople);
