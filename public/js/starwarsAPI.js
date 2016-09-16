@@ -73,16 +73,16 @@ $(document).ready(function() {
 	
 
 	function drawModal(array, name){
-		
+		var content="";
 		//when emtpy array
 		if(array.length == 0)
 			return "None";
 
 		array.forEach(function(element,index,array){
 			$.when($.ajax(array[index])).then(function(data){
-				$('#'+name+'').append(data.name);
+				content +="<li>"+data.name+"</li>";
+				$('#'+name+'').html(content);
 				console.log(data.name);
-
 			});
 		});
 
