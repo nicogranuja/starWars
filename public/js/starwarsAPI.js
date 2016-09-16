@@ -74,6 +74,8 @@ $(document).ready(function() {
 
 	function drawModal(array, name){
 		var content="";
+		var name = name.replace(/ /g, '');//remove white space
+		console.log(name);
 		//when emtpy array
 		if(array.length == 0)
 			return "None";
@@ -87,7 +89,7 @@ $(document).ready(function() {
 		});
 
 		var modal = 
-		"<button type='button' class='btn btn-primary' data-toggle='modal' data-target='."+name+"'>Small modal</button>"+
+		"<button type='button' class='btn btn-primary btn-sm' data-toggle='modal' data-target='."+name+"'>Display</button>"+
 		"<div class='modal fade "+name+"' tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel'>"+
 		  "<div class='modal-dialog modal-sm' role='document'>"+
 		    "<div class='modal-content' id='"+name+"'>"+
@@ -228,7 +230,7 @@ $(document).ready(function() {
 			"<td><b>Starships Piloted: </b>"+
 			//make a method here to avoid printing the popover on people who have empty arrays
 			//print something here
-				drawModal(person.starships, 'starships')+
+				drawModal(person.starships, person.name)+
 			"</td>"+
 			"</tr>";
 
