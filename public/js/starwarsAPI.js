@@ -80,6 +80,10 @@ $(document).ready(function() {
 		//when emtpy array
 		if(array.length == 0)
 			return "None";
+		//this condition allows us to send a string as a parameter instead of an array and the funciton would still work
+		if(typeof(array)== 'string'){
+			array = array.split();
+		}
 		//loop through the array and call an ajax request for each link that comes in the array
 		//when we get the data assign it to the modal we just returned.
 		array.forEach(function(element,index,array){
@@ -241,6 +245,7 @@ $(document).ready(function() {
 			"<td><b>Vehicles Driven: </b>"+drawModal(person.vehicles, person.name+"Vehicles", 'vehicles')+"</td>"+
 			"<td><b>Specie: </b>"+drawModal(person.species, person.name+"Species", 'species')+"</td>"+
 			"<td><b>Films: </b>"+drawModal(person.films, person.name+"Films", 'films')+"</td>"+
+			"<td><b>Homeworld: </b>"+drawModal(person.homeworld, person.name+"Homeworld", 'planets')+"</td>"+
 			"</tr>";
 
 		$table.html(infoPeople);
