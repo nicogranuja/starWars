@@ -6,6 +6,7 @@ body{
 
 /*Classes------------------------------*/
 .container{
+	margin-left: 0px;
 	padding: 5vh;
 }
 /*pictures displayed in the table content*/
@@ -44,7 +45,7 @@ body{
 /*id for the whole navbar*/
 #navBar{
 	/*padding-bottom: 10px;*/
-	
+
 	font-family: 'Droid Sans Mono', monospace;
 }
 #searchBar{

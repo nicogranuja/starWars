@@ -313,6 +313,10 @@ $(document).ready(function() {
 			"<td><b>Release Date: </b>"+ film.release_date+"</td>"+
 			"<td><b>Created: </b>"+ film.created+"</td>"+
 			"<td><b>Edited: </b>"+ film.edited+" </td>"+
+			"<td><b>Characters: </b>"+drawModal(film.characters, film.title+"Characters", 'people')+"</td>"+
+			"<td><b>Species: </b>"+drawModal(film.species, film.title+"Species", 'species')+"</td>"+
+			"<td><b>Starships: </b>"+drawModal(film.starships, film.title+"Starships", 'starships')+"</td>"+
+			"<td><b>Vehicles: </b>"+drawModal(film.vehicles, film.title+"Vehicles", 'vehicles')+"</td>"+
 			"</tr>";
 
 		$table.html(infoFilms);
