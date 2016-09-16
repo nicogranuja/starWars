@@ -84,8 +84,16 @@ $(document).ready(function() {
 		//when we get the data assign it to the modal we just returned.
 		array.forEach(function(element,index,array){
 			$.when($.ajax(array[index])).then(function(data){
-				content +="<li>"+data.name;
-				content += "<img src='/img/"+kind+"/"+ IgnoreSpecialCharactersFromString(data.name)+ ".png' class='charactersIMG center-block'</li>";
+				//special case for films
+				if(kind == 'films'){
+					content+= "<li>"+data.title;
+					content += "<img src='/img/"+kind+"/"+ IgnoreSpecialCharactersFromString(data.title)+ ".jpg' class='charactersIMG center-block'</li>";
+				}
+				//else use title
+				else{
+					content +="<li>"+data.name;
+					content += "<img src='/img/"+kind+"/"+ IgnoreSpecialCharactersFromString(data.name)+ ".png' class='charactersIMG center-block'</li>";
+				}
 				$('#'+name+'').html(content);
 			});
 		});
@@ -231,6 +239,8 @@ $(document).ready(function() {
 			"<td><b>Mass: </b>"+ person.mass+" Kg.</td>"+
 			"<td><b>Starships Piloted: </b>"+drawModal(person.starships, person.name+"Starships", 'starships')+"</td>"+
 			"<td><b>Vehicles Driven: </b>"+drawModal(person.vehicles, person.name+"Vehicles", 'vehicles')+"</td>"+
+			"<td><b>Specie: </b>"+drawModal(person.species, person.name+"Species", 'species')+"</td>"+
+			"<td><b>Films: </b>"+drawModal(person.films, person.name+"Films", 'films')+"</td>"+
 			"</tr>";
 
 		$table.html(infoPeople);
