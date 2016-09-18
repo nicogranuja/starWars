@@ -228,7 +228,8 @@ $(document).ready(function() {
 			"<td><b>Climate: </b>"+ planet.climate+"</td>"+
 			"<td><b>Height: </b>"+ planet.gravity+" G's</td>"+
 			"<td><b>Mass: </b>"+ planet.population+"</td>"+
-			// "<td><b>Residents: </b>"+ planet.residents+"</td>"+
+			"<td><b>Residents: </b>"+drawModal(planet.residents, planet.name+"ResidentsPlanets", 'people')+"</td>"+
+			"<td><b>Films: </b>"+drawModal(planet.films, planet.name+"FilmsPlanets", 'films')+"</td>"+
 			"</tr>";
 		$table.html(infoPlanets);
 	}
@@ -241,8 +242,8 @@ $(document).ready(function() {
 			"<td><b>Gender: </b>"+ person.gender+"</td>"+
 			"<td><b>Height: </b>"+ person.height+" Cm.</td>"+
 			"<td><b>Mass: </b>"+ person.mass+" Kg.</td>"+
-			"<td><b>Starships Piloted: </b>"+drawModal(person.starships, person.name+"Starships", 'starships')+"</td>"+
-			"<td><b>Vehicles Driven: </b>"+drawModal(person.vehicles, person.name+"Vehicles", 'vehicles')+"</td>"+
+			"<td><b>Starships: </b>"+drawModal(person.starships, person.name+"Starships", 'starships')+"</td>"+
+			"<td><b>Vehicles: </b>"+drawModal(person.vehicles, person.name+"Vehicles", 'vehicles')+"</td>"+
 			"<td><b>Specie: </b>"+drawModal(person.species, person.name+"Species", 'species')+"</td>"+
 			"<td><b>Films: </b>"+drawModal(person.films, person.name+"Films", 'films')+"</td>"+
 			"<td><b>Homeworld: </b>"+drawModal(person.homeworld, person.name+"Homeworld", 'planets')+"</td>"+
@@ -262,8 +263,9 @@ $(document).ready(function() {
 			"<td><b>Average Lifespan: </b>"+ specie.average_lifespan+" Years.</td>"+
 			"<td><b>Language: </b>"+ specie.language+"</td>"+
 			"<td><b>Skin Colors: </b>"+ specie.skin_colors+"</td>"+
-			//get the origin probably use swapi
-			// "<td><b>Planet of Origin: </b>"+ specie.homeworld+"</td>"+
+			"<td><b>Homeworld: </b>"+drawModal(specie.homeworld, specie.name+"HomeworldSpecie", 'planets')+"</td>"+
+			"<td><b>People: </b>"+drawModal(specie.people, specie.name+"PeopleSpecies", 'people')+"</td>"+
+			"<td><b>Films: </b>"+drawModal(specie.films, specie.name+"FilmsSpecies", 'films')+"</td>"+
 			"</tr>";
 
 		$table.html(infoSpecies);
@@ -278,9 +280,11 @@ $(document).ready(function() {
 			"<td><b>Manufacturer: </b>"+ vehicle.manufacturer+" Years</td>"+
 			"<td><b>Passengers: </b>"+ vehicle.passengers+"</td>"+
 			"<td><b>Crew: </b>"+ vehicle.crew+"</td>"+
-			"<td><b>Atmosphering Speed: </b>"+ vehicle.max_atmosphering_speed+" </td>"+
+			"<td><b>Speed: </b>"+ vehicle.max_atmosphering_speed+" Atm.</td>"+
 			"<td><b>Cost: </b>"+ vehicle.cost_in_credits+" Galactic credits</td>"+
 			"<td><b>Length: </b>"+ vehicle.length+" Meters</td>"+
+			"<td><b>Pilots: </b>"+drawModal(vehicle.pilots, vehicle.name+"PilotsVehicle", 'people')+"</td>"+
+			"<td><b>Films: </b>"+drawModal(vehicle.films, vehicle.name+"FilmsVehicle", 'films')+"</td>"+
 			"</tr>";
 
 		$table.html(infoVehicles);
@@ -295,9 +299,11 @@ $(document).ready(function() {
 			"<td><b>Manufacturer: </b>"+ starship.manufacturer+" Years</td>"+
 			"<td><b>Passengers: </b>"+ starship.passengers+"</td>"+
 			"<td><b>Crew: </b>"+ starship.crew+"</td>"+
-			"<td><b>Atmosphering Speed: </b>"+ starship.max_atmosphering_speed+" </td>"+
+			"<td><b>Speed: </b>"+ starship.max_atmosphering_speed+" Atm.</td>"+
 			"<td><b>Cost: </b>"+ starship.cost_in_credits+" Galactic credits</td>"+
 			"<td><b>Length: </b>"+ starship.length+" Meters</td>"+
+			"<td><b>Pilots: </b>"+drawModal(starship.pilots, starship.name+"PilotsStarships", 'people')+"</td>"+
+			"<td><b>Films: </b>"+drawModal(starship.films, starship.name+"FilmsStarships", 'films')+"</td>"+
 			"</tr>";
 
 		$table.html(infoStarships);
@@ -311,8 +317,8 @@ $(document).ready(function() {
 			"<td><b>Director: </b>"+ film.director+"</td>"+
 			"<td><b>Producer: </b>"+ film.producer+" Years</td>"+
 			"<td><b>Release Date: </b>"+ film.release_date+"</td>"+
-			"<td><b>Created: </b>"+ film.created+"</td>"+
-			"<td><b>Edited: </b>"+ film.edited+" </td>"+
+			// "<td><b>Created: </b>"+ film.created+"</td>"+
+			// "<td><b>Edited: </b>"+ film.edited+" </td>"+
 			"<td><b>Characters: </b>"+drawModal(film.characters, film.title+"Characters", 'people')+"</td>"+
 			"<td><b>Species: </b>"+drawModal(film.species, film.title+"Species", 'species')+"</td>"+
 			"<td><b>Starships: </b>"+drawModal(film.starships, film.title+"Starships", 'starships')+"</td>"+
