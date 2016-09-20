@@ -6,8 +6,9 @@ body{
 
 /*Classes------------------------------*/
 .container{
-	margin-left: 0px;
+	margin: 0px;
 	padding: 5vh;
+
 }
 /*pictures displayed in the table content*/
 .charactersIMG{
