@@ -74,6 +74,7 @@ $(document).ready(function() {
 	//array will be the array of api links
 	//name will be the object's name attribute used for creating the modal and assigning its id
 	//kind  will be used to know what information we are handling.
+	// IgnoreSpecialCharactersFromString(name) to eliminate special characters from the string that might produce expression errors
 	function drawModal(array, name, kind){
 		var content="";
 		var name = name.replace(/ /g, '');//remove white space
@@ -98,15 +99,16 @@ $(document).ready(function() {
 					content +="<li>"+data.name;
 					content += "<img src='/img/"+kind+"/"+ IgnoreSpecialCharactersFromString(data.name)+ ".png' class='charactersIMG center-block'</li>";
 				}
-				$('#'+name+'').html(content);
+				$('#'+IgnoreSpecialCharactersFromString(name)+'').html(content);
 			});
 		});
 		//create and return the "empty modal initialized with unique id"
+		
 		var modal = 
-		"<button type='button' class='btn btn-warning btn-sm' data-toggle='modal' data-target='."+name+"'>Display</button>"+
-		"<div class='modal fade "+name+"' tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel'>"+
+		"<button type='button' class='btn btn-warning btn-sm' data-toggle='modal' data-target='."+IgnoreSpecialCharactersFromString(name)+"'>Display</button>"+
+		"<div class='modal fade "+IgnoreSpecialCharactersFromString(name)+"' tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel'>"+
 		  "<div class='modal-dialog modal-sm' role='document'>"+
-		    "<div class='modal-content' id='"+name+"'>"+
+		    "<div class='modal-content' id='"+IgnoreSpecialCharactersFromString(name)+"'>"+
 		"</div></div></div>";
 
 		return modal;
