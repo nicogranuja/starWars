@@ -79,7 +79,7 @@ $(document).ready(function() {
 		var content="";
 		var name = name.replace(/ /g, '');//remove white space
 		//when emtpy array
-		if(array.length == 0)
+		if(array == null || array.length == 0)
 			return "None";
 		//this condition allows us to send a string as a parameter instead of an array and the funciton would still work
 		if(typeof(array)== 'string'){
